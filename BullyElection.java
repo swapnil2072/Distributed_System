@@ -28,7 +28,7 @@ public class BullyElection {
             System.out.println("1. Kill a Process");
             System.out.println("2. Revive a Process");
             System.out.println("3. Start an Election");
-            System.out.println("4. Send a Message to Coordinator");
+            System.out.println("4. Send a Message to Process");
             System.out.println("5. Exit");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
@@ -52,7 +52,7 @@ public class BullyElection {
                     initiateElection(processes, initiatingProcessID);
                     break;
                 case 4:
-                    sendMessageToCoordinator(processes);
+                    sendMessageToProcess(processes);
                     break;
                 case 5:
                     System.out.println("Exiting the program.");
@@ -101,23 +101,18 @@ public class BullyElection {
         }
     }
 
-    public static void sendMessageToCoordinator(ArrayList<Process> processes) {
-        for (Process process : processes) {
-            if (process.active && process.processID == findCoordinator(processes)) {
-                System.out.println("Message sent to Coordinator (Process " + process.processID + ") " );
-                return;
-            }
-        }
-        System.out.println("No coordinator found to send the message.");
-    }
+    public static void sendMessageToProcess(ArrayList<Process> processes) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the process ID to send a message to: ");
+        int targetProcessID = scanner.nextInt();
 
-    public static int findCoordinator(ArrayList<Process> processes) {
-        int highestProcessID = -1;
-        for (Process process : processes) {
-            if (process.active && process.processID > highestProcessID) {
-                highestProcessID = process.processID;
-            }
+        Process targetProcess = processes.get(targetProcessID - 1);
+
+        if (targetProcess.active) {
+            
+            System.out.println("Message sent to Process " + targetProcessID  );
+        } else {
+            System.out.println("Process " + targetProcessID + " is not active. Message not sent.");
         }
-        return highestProcessID;
     }
 }

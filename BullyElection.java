@@ -64,42 +64,32 @@ public class BullyElection {
     }
 
     public static void initiateElection(ArrayList<Process> processes, int initiatingProcessID) {
-        int highestProcessID = initiatingProcessID;
-        Process initiatingProcess = processes.get(initiatingProcessID - 1);
+    int highestProcessID = initiatingProcessID;
 
-        for (Process process : processes) {
-            if (process.processID > initiatingProcessID && process.active) {
-                System.out.println("Process " + initiatingProcessID + " initiates an election.");
-                highestProcessID = initiatingProcessID;
+    System.out.println("Process " + initiatingProcessID + " initiates an election.");
 
-                // Send election message to higher priority processes
-                for (Process higherProcess : processes) {
-                    if (higherProcess.processID > initiatingProcessID && higherProcess.active) {
-                        System.out.println("Election message sent from Process " + initiatingProcessID + " to Process " + higherProcess.processID);
-                    }
-                }
+    // Send election message to higher priority processes
+    for (Process higherProcess : processes) {
+        if (higherProcess.processID > initiatingProcessID && higherProcess.active) {
+            System.out.println("Election message sent from Process " + initiatingProcessID + " to Process " + higherProcess.processID);
+        }
+    }
 
-                // Handle responses
-                for (Process higherProcess : processes) {
-                    if (higherProcess.processID > initiatingProcessID && higherProcess.active) {
-                        System.out.println("Process " + higherProcess.processID + " responds to Process " + initiatingProcessID);
-                        if (higherProcess.processID > highestProcessID) {
-                            highestProcessID = higherProcess.processID;
-                        }
-                    }
-                }
-
-                // Declare the new leader
-                if (highestProcessID == initiatingProcessID) {
-                    System.out.println("Process " + initiatingProcessID + " is elected as the leader.");
-                } else {
-                    System.out.println("Process " + highestProcessID + " is elected as the leader.");
-                }
-
-                break;
+    // Handle responses
+    for (Process higherProcess : processes) {
+        if (higherProcess.processID > initiatingProcessID && higherProcess.active) {
+            System.out.println("Process " + higherProcess.processID + " responds to Process " + initiatingProcessID);
+            if (higherProcess.processID > highestProcessID) {
+                highestProcessID = higherProcess.processID;
             }
         }
     }
+
+    // Declare the new leader
+   System.out.println("Process " + highestProcessID + " is elected as the leader.");
+
+}
+
 
     public static void sendMessageToProcess(ArrayList<Process> processes) {
         Scanner scanner = new Scanner(System.in);
